@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Connexion</title>
+    <link rel="icon" type="image/png" href="image/logo.png">
+</head>
+
+<header>
+    <div class="droite"><a href="/" ><img src="image/log.png" width=40% height=71%></a></div>
+    <div class="formulaire">
+      <a href="/login"><input type="button" value="Se connecter (Client)"></a> <!-- /login chemin JS vers le fichier ejs gerante -->
+    </div>
+</header>
+
+<body>
+    <div class="corps"> 
+        <video autoplay="autoplay" muted="" loop="infinite" src="video/amv.mp4"></video>
+        <br>
+        <br>
+        
+        <div style="background-color: rgb(238, 216, 47); width: max-content; height: max-content; margin: 0 auto;">
+            
+            <h1>Bonjour <%= client.nom %>, voici vos points de fidélité :</h1>
+            <br>
+            <br>
+            <p>Jours de connexion : <%= client.point_fidelite %></p>
+            <br>
+            <p>Date d'anniversaire : <%= client.date_naissance.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) %></p>        
+            <br>
+            <p>Jours avant votre anniversaire : <%= daysUntilBirthday %></p>
+            <br>
+            <p>Points gagnés grâce aux connexions : <%= pointsGained %></p>
+            <br
+            <% if (daysUntilBirthday === 0) { %>
+                <p>C'est votre anniversaire!</p>
+                <p>Voici votre cadeau :</p>
+                <img src="<%= client.cadeau_anniversaire %>" alt="Cadeau anniversaire">
+            <% } %>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    const birthDate = new Date('<%= client.date_naissance %>');
+    const today = new Date();
+    const thisYearBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+    const daysUntilBirthday = (thisYearBirthday - today) / (1000 * 60 * 60 * 24);
+    const isBirthday = daysUntilBirthday === 0;
+
+    if (isBirthday) {
+        alert('Joyeux anniversaire!');
+        document.getElementById('birthday').style.display = 'block';
+    } else {
+        document.getElementById('birthday').style.display = 'none';
+    }
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

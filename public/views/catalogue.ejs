@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue des Cadeaux</title>
+    <link rel="stylesheet" href="../css/style.css"> 
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+    .corps {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center; /* Centrer les carrés horizontalement */
+        align-items: flex-start; /* Aligner les carrés verticalement au début */
+    }
+
+    .cadeau {
+        background-color: yellow;
+        margin: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden; /* Pour éviter que le contenu ne dépasse les limites */
+        min-height: 200px; /* Hauteur minimale pour les carrés */
+        width: calc(50% - 20px); /* Largeur des carrés, ajustée pour tenir compte de la marge */
+    }
+
+    .cadeau img {
+        max-width: 100%; /* Réduire la taille des images à l'intérieur */
+        max-height: 70%; /* Limiter la hauteur des images à 70% de la hauteur du carré */
+    }
+
+    .cadeau h2, .cadeau p, .cadeau button {
+        max-width: 100%; /* Réduire la taille des autres éléments à l'intérieur */
+        max-height: 30%; /* Limiter la hauteur des autres éléments à 30% de la hauteur du carré */
+    }
+</style>
+    </head>
+
+<header>
+    <div class="droite">
+        <% if (client) { %>
+            <a href="/" ><img src="../image/log.png" width=40% height=71%></a>
+            <p>Bonjour, <%= client.nom %> (Points: <%= client.points %>)</p>
+            <a href="/panier"><input type="button" value="Mon Panier"></a>
+        <% } else { %>
+            <a href="/" ><img src="image/log.png" width=40% height=71%></a>
+        <% } %>
+    </div>
+    <div class="formulaire">
+        <% if (client) { %>
+            <a href="/"><input type="button" value="Accueil"></a>
+            <a href="/client/<%= client.id %>"><input type="button" value="Mon Profil"></a>
+            <a href="/logout"><input type="button" value="Deconnexion"></a>
+        <% }else if (isLoggedInGerant) { %>
+            <a href="/ajouter_cadeau"><input type="button" value="Ajouter cadeaux"></a>
+            <a href="/logout"><input type="button" value="Deconnexion"></a>
+        <% } else { %>
+            <a href="/login"><input type="button" value="Se connecter"></a>
+            <a href="/gerante"><input type="button" value="Se connecter (Administrateur)"></a>
+            <a href="/"><input type="button" value="Accueil"></a>
+        <% } %>      
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color: rgb(238, 216, 47); width: max-content; height: min-content; margin: 0 auto;">
+        <h1>Catalogue des Cadeaux</h1>
+    </div>
+</header>
+
+
+<body>
+    <div class="corps">
+        <video autoplay="autoplay" muted="" loop="infinite" src="video/amv.mp4"></video>
+        <% cadeaux.forEach(function(cadeau) { %>
+            <div class="cadeau">
+                <img src="<%= cadeau.image %>" alt="<%= cadeau.nom %>">
+                <h2><%= cadeau.nom %></h2>
+                <p><%= cadeau.prix %> points</p>
+                <form action="/panier/ajouter/<%= cadeau.id %>" method="post">
+                    <% if (isLoggedInGerant) { %>
+                        <a href="/supprimer_cadeau/<%= cadeau.id %>"><input type="button" value="Supprimer"></a>
+                    <% }else{ %>
+                    <button type="submit">Ajouter au panier</button>
+                    <% } %>
+            </form>
+            </div>
+        <% }); %> 
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cadeauElements = document.querySelectorAll('.cadeau');
+            const numberOfCadeaux = cadeauElements.length;
+            const baseSize = 200; // Taille de base en pixels, utilisée comme référence
+            const maxCadeaux = 10; // Nombre maximum de cadeaux pour lesquels la taille de base est utilisée
+
+            // Calculer la nouvelle taille en fonction du nombre de cadeaux
+            const newSize = baseSize / (numberOfCadeaux > maxCadeaux ? maxCadeaux : numberOfCadeaux);
+
+            // Appliquer la nouvelle taille à tous les carrés
+            cadeauElements.forEach(function(cadeau) {
+                // Obtenir la taille de l'image à l'intérieur du carré
+                const image = cadeau.querySelector('img');
+                const imageSize = image.naturalWidth; // Ou image.naturalHeight pour la hauteur
+
+                // Calculer la taille du carré en fonction de la taille de l'image
+                const cadeauSize = Math.max(imageSize * 0.5, 200); // Assurez-vous que la taille du carré est au moins de 200px
+
+                // Appliquer la nouvelle taille au carré
+                cadeau.style.width = `${cadeauSize}px`;
+                cadeau.style.height = `${cadeauSize}px`;
+            });
+        });
+    </script>
+</body>
+
+</html>

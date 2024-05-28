@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/stylecopy.css">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Connexion</title>
+    <link rel="icon" type="image/png" href="image/logo.png">
+</head>
+
+<header>
+    <div class="droite"><a href="/" ><img src="image/log.png" width=40% height=71%></a></div>
+    <div class="formulaire">
+      <a href="/gerante"><input type="button" value="Se connecter (Administrateur)"></a> <!-- /login chemin JS vers le fichier ejs gerante -->
+    </div>
+</header>
+
+<body>
+    <div class="corps"> 
+        <video autoplay="autoplay" muted="" loop="infinite" src="video/amv.mp4"></video>
+
+        
+        <div style="background-color: rgb(238, 216, 47); width: 300px; height: 200px; margin: 0 auto;">
+            <h1>Connexion</h1>
+            <% if (error) { %>
+                <p style="color: red;"><%= error %></p>
+            <% } %>
+            <form action="/login" method="post" class = "form-container">
+                <label for="username">Identifiant (e-mail) :</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Mot de passe:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Se connecter</button>
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>

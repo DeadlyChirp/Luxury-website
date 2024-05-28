@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier les informations du client</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" type="image/png" href="image/logo.png">
+</head>
+
+<header>
+    <div class="droite">
+        <a href="/" ><img src="image/log.png" width=40% height=71%></a>
+        <p>Bonjour Gérant !</p>
+    </div>
+    <div class="formulaire">
+        <a href="/inscription"><input type="button" value="Inscription"></a>
+        <a href="/allconnexion"><input type="button" value="Gestion Utilisateurs"></a>
+        <a href="/logout"><input type="button" value="Deconnexion"></a>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color: rgb(238, 216, 47); width: max-content; height: min-content; margin: 0 auto;">
+        <h1>Espace Gérante</h1>
+    </div>
+</header>
+
+<body>
+    <div class="corps">
+        <video autoplay="autoplay" muted="" loop="infinite" src="video/amv.mp4"></video>
+        <br>
+        <br>
+        <br>
+        <div style="background-color: rgb(238, 216, 47); width: max-content; height: min-content; margin: 0 auto;">
+            <h1>Modifier les informations du client</h1>
+
+            <form action="/modifier_client/<%= client.id %>/modified" method="POST">
+                <input type="hidden" name="formType" value="updateInfo">
+                <label for="nom">Nom:</label><br>
+                <input type="text" id="nom" name="nom" value="<%= client.nom %>"><br>
+                
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" value="<%= client.email %>"><br>
+                
+                <label for="mot_de_passe">Mot de passe:</label><br>
+                <input type="text" id="mot_de_passe" name="mot_de_passe" value="<%= client.mot_de_passe %>"><br>
+                
+                <label for="points">Points:</label><br>
+                <input type="number" id="points" name="points" value="<%= client.points %>"><br>
+                
+                <input type="submit" value="Modifier">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

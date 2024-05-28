@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier</title>
+    <link rel="stylesheet" href="../css/style.css"> 
+    <link rel="stylesheet" href="../css/index.css">
+    <style>
+        .corps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* Centrer les carrés horizontalement */
+            align-items: flex-start; /* Aligner les carrés verticalement au début */
+        }
+    
+        .item {
+            background-color: yellow;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; /* Pour éviter que le contenu ne dépasse les limites */
+            min-height: 200px; /* Hauteur minimale pour les carrés */
+            width: calc(50% - 20px); /* Largeur des carrés, ajustée pour tenir compte de la marge */
+        }
+    
+        .item img {
+            max-width: 100%; /* Réduire la taille des images à l'intérieur */
+            max-height: 70%; /* Limiter la hauteur des images à 70% de la hauteur du carré */
+        }
+    
+        .item h2, .item p, .item button {
+            max-width: 100%; /* Réduire la taille des autres éléments à l'intérieur */
+            max-height: 30%; /* Limiter la hauteur des autres éléments à 30% de la hauteur du carré */
+        }
+    </style>
+</head>
+
+<header>
+    <div class="droite">
+        <% if (client) { %>
+            <a href="/" ><img src="../image/log.png" width=40% height=71%></a>
+            <p>Bonjour, <%= client.nom %> (Points: <%= client.points %>)</p>
+            <a href="/panier"><input type="button" value="Mon Panier"></a>
+        <% } else { %>
+            <a href="/" ><img src="image/log.png" width=40% height=71%></a>
+        <% } %>
+    </div>
+    <div class="formulaire">
+        <% if (client) { %>
+            <a href="/"><input type="button" value="Accueil"></a>
+            <a href="/client/<%= client.id %>"><input type="button" value="Mon Profil"></a>
+            <a href="/logout"><input type="button" value="Deconnexion"></a>
+        <% } else { %>
+            <a href="/login"><input type="button" value="Se connecter"></a>
+            <a href="/gerante"><input type="button" value="Se connecter (Administrateur)"></a>
+            <a href="/"><input type="button" value="Accueil"></a>
+        <% } %>      
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color: rgb(238, 216, 47); width: max-content; height: min-content; margin: 0 auto;">
+        <h1>Votre Panier</h1>
+    </div>
+</header>
+
+<body>
+    <div class="corps">
+        <video autoplay="autoplay" muted="" loop="infinite" src="video/amv.mp4"></video>
+        <div class="panier-items">
+            <<% panier.forEach(function(item) { %>
+                <div class="item">
+                    <img src="<%= item.cadeau.image %>" alt="<%= item.cadeau.nom %>">
+                    <h2><%= item.cadeau.nom %></h2>
+                    <p><%= item.cadeau.prix %> points</p>
+                    <form action="/panier/supprimer/<%= item.cadeau.id %>" method="post">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                </div>
+            <% }); %>
+            <p>Total: <%= totalPoints %> points</p>
+            <p>Points restants: <%= client.points - totalPoints %> points</p>
+            <form action="/panier/finaliser" method="post">
+                <button type="submit">Finaliser le panier</button>
+            </form>
+        </div>
+  
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const itemElements = document.querySelectorAll('.item');
+                const numberOfItems = itemElements.length;
+                const baseSize = 200; // Taille de base en pixels, utilisée comme référence
+                const maxItems = 10; // Nombre maximum d'items pour lesquels la taille de base est utilisée
+        
+                // Calculer la nouvelle taille en fonction du nombre d'items
+                const newSize = baseSize / (numberOfItems > maxItems ? maxItems : numberOfItems);
+        
+                // Appliquer la nouvelle taille à tous les carrés
+                itemElements.forEach(function(item) {
+                    // Obtenir la taille de l'image à l'intérieur du carré
+                    const image = item.querySelector('img');
+                    const imageSize = image.naturalWidth; // Ou image.naturalHeight pour la hauteur
+        
+                    // Calculer la taille du carré en fonction de la taille de l'image
+                    const itemSize = Math.max(imageSize * 0.5, 200); // Assurez-vous que la taille du carré est au moins de 200px
+        
+                    // Appliquer la nouvelle taille au carré
+                    item.style.width = `${itemSize}px`;
+                    item.style.height = `${itemSize}px`;
+                });
+            });
+        </script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un cadeau</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="icon" type="image/png" href="image/logo.png">
+</head>
+
+<header>
+    <div class="droite">
+        <a href="/" ><img src="image/log.png" width=40% height=71%></a>
+        <p>Bonjour Gérant !</p>
+    </div>
+    <div class="formulaire">
+        <a href="/inscription"><input type="button" value="Inscription"></a>
+        <a href="/allconnexion"><input type="button" value="Gestion Utilisateurs"></a>
+        <a href="/logout"><input type="button" value="Deconnexion"></a>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="background-color: rgb(238, 216, 47); width: max-content; height: min-content; margin: 0 auto;">
+        <h1>Espace Gérante</h1>
+    </div>
+</header>
+
+<body>
+    <div class="corps">
+        <video autoplay="autoplay" muted="" loop="infinite" src="video/amv.mp4"></video>
+        <br>
+        <br>
+        <br>
+        <div style="background-color: rgb(238, 216, 47); width: max-content; height: min-content; margin: 0 auto;">
+            <h1>Ajouter un cadeau</h1>
+
+            <form action="/ajouter_cadeau" method="post" enctype="multipart/form-data">
+
+                <label for="nom">Nom:</label><br>
+                <input type="text" id="nom" name="nom"><br>
+
+                <label for="prix">Prix:</label><br>
+                <input type="number" id="prix" name="prix"><br>
+
+                <label for="image">Image:</label><br>
+                <input type="file" id="image" name="image"><br>
+                
+                <input type="submit" value="Ajouter">
+              </form>
+        </div>
+    </div>
+</body>
+
+</html>

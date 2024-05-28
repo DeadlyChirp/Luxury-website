@@ -1,0 +1,165 @@
+
+# Projet Web - Anime & Manga Store (Jeremy&Damien)
+
+## Introduction
+
+Ce projet est une application web qui permet aux utilisateurs de parcourir et d'acheter des produits liés à l'anime et au manga. Il s'agit d'une plateforme en ligne qui facilite la découverte et l'achat de merchandising, de figurines, de vêtements, et d'autres produits dérivés de ces univers populaires.
+
+## Objectif
+
+L'objectif principal de ce projet est de fournir une plateforme accessible et conviviale pour les amateurs d'anime et de manga, permettant de découvrir et d'acheter des produits dérivés de manière simple et efficace.
+
+## Technologies Utilisées
+
+- **Node.js** : Utilisé pour le serveur backend.
+- **Express.js** : Framework web pour Node.js, utilisé pour construire l'application web.
+- **EJS (Embedded JavaScript)** : Moteur de template pour générer des pages HTML dynamiques côté serveur.
+- **PostgreSQL** : Base de données relationnelle utilisée pour stocker les informations des utilisateurs, des produits, et des commandes.
+
+## Structure du Projet
+
+### Répertoire `public/`
+
+Contient tous les fichiers statiques nécessaires à l'application web, y compris :
+
+- **`public/css/`** : Contient les fichiers CSS pour le style de l'application.
+- **`public/html/`** : Contient les fichiers HTML statiques, avec `index.html` comme page d'accueil.
+- **`public/image/`** : Contient les images utilisées dans l'application.
+- **`public/js/`** : Contient les fichiers JavaScript côté client.
+- **`public/sql/`** : Contient les fichiers SQL pour les opérations de base de données.
+- **`public/video/`** : Contient les vidéos qui pourraient être affichées sur le site.
+- **`public/views/`** : Contient les fichiers EJS pour les vues dynamiques, telles que le catalogue, le panier, et les pages de profil.
+
+### Fichier `serveur.js`
+
+C'est le point d'entrée de l'application. Il configure le serveur Express, définit les routes pour gérer les requêtes HTTP, et interagit avec la base de données pour récupérer et stocker les données.
+
+### Fichiers EJS
+
+Les fichiers EJS sont utilisés pour générer des pages HTML dynamiques côté serveur. Ils permettent d'intégrer des données provenant du serveur dans les pages HTML, ce qui est particulièrement utile pour afficher des informations spécifiques à l'utilisateur ou des données récupérées de la base de données.
+
+### Fichier `index.ejs`
+
+C'est la page d'accueil de l'application. Elle sert de point de départ pour les utilisateurs et peut inclure des informations générales sur le site, des promotions, et des liens vers d'autres sections du site.
+
+## Fonctionnement de l'Application
+
+L'application fonctionne en gérant les requêtes HTTP des utilisateurs, en interagissant avec la base de données pour récupérer ou stocker des données, et en générant des pages HTML dynamiques à l'aide des fichiers EJS.
+
+- **Requêtes GET** : Les requêtes GET sont utilisées pour récupérer des informations, telles que la liste des produits disponibles ou les détails d'un produit spécifique.
+- **Requêtes POST** : Les requêtes POST sont utilisées pour soumettre des données, comme les informations de connexion ou les données de formulaire d'inscription.
+
+## Démarrage du Serveur
+
+Pour lancer le serveur JavaScript, utilisez la commande suivante dans votre terminal :
+
+```bash
+js serveur.js
+```
+
+Cela initialise le serveur et vous permet d'accéder à la page web en naviguant vers : [http://localhost:3000/](http://localhost:3000/)
+
+## Configuration de la Base de Données
+
+Avant de pouvoir utiliser l'application, il est nécessaire d'initialiser une base de données PostgreSQL en utilisant le fichier `base.sql` fourni. Ce fichier contient les instructions SQL nécessaires pour créer les tables et les relations nécessaires à l'application.
+
+## Configuration de la Pool PostgreSQL dans `serveur.js`
+
+Dans le fichier `serveur.js`, vous devez modifier les paramètres de la pool pour PostgreSQL afin d'y entrer vos propres informations de connexion, y compris votre nom d'utilisateur, votre mot de passe, et le nom de votre base de données. Voici un exemple de configuration :
+
+```javascript
+const pool = new Pool({
+ user: 'votre_nom_utilisateur',
+ host: 'localhost',
+ database: 'nom_de_votre_base_de_donnees',
+ password: 'votre_mot_de_passe',
+ port: 5432,
+});
+```
+
+## Charger le fichier base.sql dans votre base de donnée PSQL
+
+Pour charger toutes les tables et relations dans votre base de donnée, vous devez effectuer les commandes suivantes : 
+
+### Accéder à votre base de donnée :
+
+```sql
+psql -U nom_utilisateur -d base_de_donnée
+```
+
+### Charger le fichier base.sql
+
+```sql
+\i chemin_vers_le_fichier_base.sql
+```
+
+### Vérifier les tables 
+
+```sql
+\dt
+```
+### Supprimer toutes les tables et relations de la base de donnée 
+
+```sql
+   DO $$ DECLARE
+       r RECORD;
+   BEGIN
+       FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = current_schema()) LOOP
+           EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE';
+       END LOOP;
+       FOR r IN (SELECT sequence_name FROM information_schema.sequences WHERE sequence_schema = current_schema()) LOOP
+           EXECUTE 'DROP SEQUENCE IF EXISTS ' || quote_ident(r.sequence_name);
+       END LOOP;
+   END $$;
+```
+
+## Accorder les Droits Nécessaires à l'Utilisateur
+
+Il est nécessaire d'accorder les droits appropriés à l'utilisateur de la base de données pour les tables et la séquence utilisées par l'application. Voici les commandes SQL à exécuter dans `psql` pour accorder ces droits :
+
+### Pour `client_id_seq` :
+
+```sql
+GRANT USAGE, SELECT ON SEQUENCE client_id_seq TO votre_utilisateur;
+```
+### Pour `panier_id_seq` : 
+
+```sql
+GRANT USAGE, SELECT ON SEQUENCE panier_id_seq TO votre_utilisateur;
+```
+
+### Pour `cadeaux_id_seq` : 
+
+```sql
+GRANT USAGE, SELECT ON SEQUENCE cadeaux_id_seq TO votre_utilisateur;
+```
+### Pour la table `cadeaux` :
+
+```sql
+GRANT ALL PRIVILEGES ON TABLE cadeaux TO votre_utilisateur;
+```
+
+### Pour la table `client` :
+
+```sql
+GRANT ALL PRIVILEGES ON TABLE client TO votre_utilisateur;
+```
+
+### Pour la table `gerant` :
+
+```sql
+GRANT ALL PRIVILEGES ON TABLE gerant TO votre_utilisateur;
+```
+
+## Pour la table `panier` : 
+
+```sql
+GRANT ALL PRIVILEGES ON TABLE panier TO votre_utilisateur;
+```
+
+
+Remplacez `votre_utilisateur` par le nom de l'utilisateur de la base de données que vous utilisez. Ces commandes permettent à l'utilisateur de la base de données d'accéder et de manipuler les données dans les tables `client` et `cadeaux`, ainsi que la séquence `client_id_seq`, ce qui est nécessaire pour le fonctionnement de l'application.
+
+
+
+

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
+    <title>Prog Web</title>
+    <link rel="icon" type="image/png" href="image/logo.png">
+</head>
+
+<header>
+    <div class="droite">
+      <% if (client) { %>
+        <a href="/" ><img src="../image/log.png" width=40% height=71%></a>
+        <p>Bonjour, <%= client.nom %> (Points: <%= client.points %>)</p>
+    <% } else { %>
+        <a href="/" ><img src="image/log.png" width=40% height=71%></a>
+    <% } %>
+    </div>
+    <div class="formulaire">
+        <% if (!isLoggedIn & !isLoggedInGerant) { %>
+          <a href="/login"><input type="button" value="Se connecter"></a>
+          <a href="/gerante"><input type="button" value="Se connecter (Administrateur)"></a>
+          <% } else if (isLoggedIn & !isLoggedInGerant){ %>
+            <!-- Utiliser la variable clientId pour construire l'URL -->
+            <a href="/client/<%= clientId %>"><input type="button" value="Mon Profil"></a>
+            <a href="/panier"><input type="button" value="Mon Panier"></a>
+            <a href="/logout"><input type="button" value="Deconnexion"></a>
+            <% } else{ %>
+              <a href="/inscription"><input type="button" value="Inscription"></a>
+            <a href="/allconnexion"><input type="button" value="Gestion Utilisateurs"></a>
+            <a href="/ajouter_cadeau"><input type="button" value="Ajouter cadeaux"></a>
+            <a href="/logout"><input type="button" value="Deconnexion"></a>
+        <% } %>
+        
+    </div>
+</header>
+
+<body>
+    <div class="corps"> 
+        <video autoplay="autoplay" muted="" loop="infinite" src="video/amv.mp4"></video>
+        <div class="hero container">
+            <div class="left">
+              <form action="/recherche" method="post">
+                <div class="input">
+                 <input type="text" name="recherche" placeholder="Trouve ton coup de coeur">
+                 <button type="submit"><span>Go</span></button>
+                </div>
+              </form>
+            </div>
+        
+            <div class="right">
+              <section class="box1">
+                <a href="/fidelite"><div class="content">
+                 <h2 class="active">Fidélité</h2>
+                </div></a>
+              </section>
+              
+              <section class="box2">
+              <div class="content">
+              <a href="/catalogue"><h2>Catalogue des cadeaux</h2></a>
+                </div>
+              </section>
+            </div>
+          </div>
+    </div>
+</body>
+</html>
