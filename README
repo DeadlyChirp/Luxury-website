@@ -1,14 +1,4 @@
 
-# Projet Web - Anime & Manga Store (Jeremy&Damien)
-
-## Introduction
-
-Ce projet est une application web qui permet aux utilisateurs de parcourir et d'acheter des produits liés à l'anime et au manga. Il s'agit d'une plateforme en ligne qui facilite la découverte et l'achat de merchandising, de figurines, de vêtements, et d'autres produits dérivés de ces univers populaires.
-
-## Objectif
-
-L'objectif principal de ce projet est de fournir une plateforme accessible et conviviale pour les amateurs d'anime et de manga, permettant de découvrir et d'acheter des produits dérivés de manière simple et efficace.
-
 ## Technologies Utilisées
 
 - **Node.js** : Utilisé pour le serveur backend.
